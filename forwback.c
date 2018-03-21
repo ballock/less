@@ -422,3 +422,24 @@ get_back_scroll()
 		return (sc_height - 2);
 	return (10000); /* infinity */
 }
+	
+/*
+ * Get line count of file
+ */
+	public int
+get_line_count()
+{
+	int nlines = 0;
+	POSITION pos;
+	
+	pos = position(TOP);
+	
+	while (pos != NULL_POSITION && nlines <= sc_height)
+	{
+		pos = forw_line(pos);
+		nlines++;
+	}
+	
+	return nlines;
+}
+

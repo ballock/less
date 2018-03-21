@@ -135,6 +135,7 @@
 	public void forward ();
 	public void backward ();
 	public int get_back_scroll ();
+	public int get_line_count ();
 	public void del_ifile ();
 	public IFILE next_ifile ();
 	public IFILE prev_ifile ();
