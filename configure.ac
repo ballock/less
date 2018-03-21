@@ -203,6 +203,8 @@ AH_TEMPLATE([HAVE_TIME_T],
 	[Define HAVE_TIME_T if your system supports the "time_t" type.])
 AH_TEMPLATE([HAVE_STRERROR],
 	[Define HAVE_STRERROR if you have the strerror() function.])
+AH_TEMPLATE([HAVE_FSYNC],
+	[Define HAVE_FSYNC if fsync() on a tty works.])
 AH_TEMPLATE([HAVE_FILENO],
 	[Define HAVE_FILENO if you have the fileno() macro.])
 AH_TEMPLATE([HAVE_ERRNO],
@@ -251,7 +253,7 @@ AC_TRY_COMPILE([#include <sys/types.h>
 
 # Checks for library functions.
 AC_TYPE_SIGNAL
-AC_CHECK_FUNCS([fsync popen _setjmp sigprocmask sigsetmask snprintf stat system fchmod])
+AC_CHECK_FUNCS([popen _setjmp sigprocmask sigsetmask snprintf stat system fchmod])
 
 # AC_CHECK_FUNCS may not work for inline functions, so test these separately.
 AC_MSG_CHECKING(for memcpy)
@@ -297,6 +299,16 @@ AC_TRY_LINK([
 #include <errno.h>
 #endif], [static char *x; x = strerror(0);],
   [AC_MSG_RESULT(yes); AC_DEFINE(HAVE_STRERROR)], [AC_MSG_RESULT(no)])
+
+AC_MSG_CHECKING(for fsync)
+AC_TRY_RUN([
+#include <fcntl.h>
+#include <unistd.h>
+int main(void)
+{
+        int fd = open("/dev/tty", O_RDWR);
+        return fsync(fd);
+}], [AC_MSG_RESULT(yes); AC_DEFINE(HAVE_FSYNC)], [AC_MSG_RESULT(no)])
 
 AC_MSG_CHECKING(for sys_errlist)
 AC_TRY_LINK(, [extern char *sys_errlist[]; static char **x; x = sys_errlist;], 

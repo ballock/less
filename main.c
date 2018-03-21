@@ -33,6 +33,7 @@ public int	quitting;
 public int	secure;
 public int	dohelp;
 public int	less_is_more;
+public int	line_count;
 
 #if LOGFILE
 public int	logfile = -1;
@@ -281,6 +282,16 @@ main(argc, argv)
 	{
 		if (edit_first())  /* Edit first valid file in cmd line */
 			quit(QUIT_ERROR);
+		/*
+		 * In case that we have only one file and -F, have to get a line
+		 * count fot init(). If the line count is less then a height of a term,
+		 * the content of the file is printed out and then less quits. Otherwise
+		 * -F can not be used
+		 */
+		if (nifile() == 1 && quit_if_one_screen)
+			line_count = get_line_count();
+		else if (nifile() > 1) /* In case more than one file, -F can not be used */
+			quit_if_one_screen = FALSE;
 	}
 
 	init();
