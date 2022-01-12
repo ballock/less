@@ -1,7 +1,7 @@
 Name:       less
 Summary:    A text file browser similar to more, but better
 Version:    436
-Release:    7.33
+Release:    7.34
 Group:      Applications/Text
 License:    GPLv3+
 URL:        http://www.greenwoodsoftware.com/less/
